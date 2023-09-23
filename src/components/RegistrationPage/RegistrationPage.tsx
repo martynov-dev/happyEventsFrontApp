@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStore } from '../../store.ts';
+import AuthService from "../../services/AuthService.ts";
 
 const RegistrationPage: React.FC = () => {
     const history = useNavigate();
@@ -16,8 +17,10 @@ const RegistrationPage: React.FC = () => {
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        const res = await AuthService.registration(formData.username, formData.password);
+        console.log(res);
         // Here, you would typically make an API request to your server
         // to create a new user account.
         // For this example, we'll simulate a successful registration and login.

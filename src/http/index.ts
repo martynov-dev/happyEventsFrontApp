@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {AuthResponse} from "../models/response/AuthResponse";
 
-export const API_URL = `http://25.33.200.138:8081/api`
+export const API_URL = `http://localhost:8081/api`
 
 const $api = axios.create({
     withCredentials: true,
@@ -10,6 +10,7 @@ const $api = axios.create({
 
 $api.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
+    config.headers.setContentType("json");
     return config;
 })
 
