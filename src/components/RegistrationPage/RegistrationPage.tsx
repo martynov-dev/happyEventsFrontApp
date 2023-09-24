@@ -17,8 +17,7 @@ const RegistrationPage: React.FC = () => {
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
+    const handleSubmit = async () => {
         const res = await AuthService.registration(formData.username, formData.password);
         console.log(res);
         // Here, you would typically make an API request to your server
@@ -35,7 +34,7 @@ const RegistrationPage: React.FC = () => {
                     <div className="card">
                         <div className="card-header">Registration</div>
                         <div className="card-body">
-                            <form onSubmit={handleSubmit}>
+                            <div>
                                 <div className="form-group">
                                     <label htmlFor="username">Username:</label>
                                     <input
@@ -60,10 +59,10 @@ const RegistrationPage: React.FC = () => {
                                         required
                                     />
                                 </div>
-                                <button type="submit" className="btn btn-primary">
+                                <button onClick={handleSubmit} type="submit" className="btn btn-primary">
                                     Register
                                 </button>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
