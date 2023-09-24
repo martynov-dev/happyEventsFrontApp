@@ -3,6 +3,7 @@ import React from 'react';
 import AppRouter from './router';
 import { useStore } from './store';
 import Header from "./components/Header/Header.tsx";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App: React.FC = () => {
     const { isLoggedIn } = useStore();
