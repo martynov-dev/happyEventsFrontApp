@@ -1,17 +1,16 @@
-// Header.tsx
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { useStore } from '../../store';
+import {Link} from 'react-router-dom';
+import {useStore} from '../../store';
 
 
 const Header: React.FC = () => {
-    const { isLoggedIn } = useStore();
+    const {isLoggedIn} = useStore();
 
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <span className="navbar-brand">Happy Events</span>
+            <span className="navbar-brand ms-2">Happy Events</span>
             <button
-                className="navbar-toggler"
+                className="navbar-toggler me-2"
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#navbarNav"
@@ -22,22 +21,22 @@ const Header: React.FC = () => {
                 <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse" id="navbarNav">
-                <ul className="navbar-nav ml-auto">
+                <ul className="navbar-nav ml-auto ms-2">
                     <li className="nav-item">
                         <Link to="/" className="nav-link">
-                            Главная
+                            Home
                         </Link>
                     </li>
                     {isLoggedIn && (
                         <>
                             <li className="nav-item">
                                 <Link to="/my-places" className="nav-link">
-                                    Мои места
+                                    My places
                                 </Link>
                             </li>
                             <li className="nav-item">
                                 <Link to="/recommendations" className="nav-link">
-                                    Рекомендации
+                                    Recommendations
                                 </Link>
                             </li>
                         </>

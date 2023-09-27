@@ -6,7 +6,7 @@ export interface IEvent {
     description: string,
     address: string,
     phoneNumber: string,
-    rating: 4,
+    rating: number,
     photoLink: string,
     tags: Array<ITag>
 }

@@ -1,74 +1,30 @@
-// RegistrationPage.tsx
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useStore } from '../../store.ts';
 import AuthService from "../../services/AuthService.ts";
+import {useStore} from "../../store.ts";
+import AuthForm from "../AuthForm/AuthForm.tsx";
 
 const RegistrationPage: React.FC = () => {
     const history = useNavigate();
-    const { login } = useStore();
-    const [formData, setFormData] = useState({
-        username: '',
-        password: '',
-    });
+    const { setLongedIn } = useStore();
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+    const handleRegistration = async (formData: { username: string; password: string }) => {
+        try {
+            console.log("registration Request");
+            const request = await AuthService.registration(formData.username, formData.password);
+            if (request.status === 200) {
+                console.log("login Request");
+                const res = await AuthService.login(formData.username, formData.password);
+                console.log(res);
+                setLongedIn(true);
+            }
+            history('/');
+        } catch (error) {
+            console.error(error);
+        }
     };
 
-    const handleSubmit = async () => {
-        const res = await AuthService.registration(formData.username, formData.password);
-        console.log(res);
-        // Here, you would typically make an API request to your server
-        // to create a new user account.
-        // For this example, we'll simulate a successful registration and login.
-        login(formData.username, formData.password);
-        history('/'); // Redirect to the home page or a dashboard
-    };
-
-    return (
-        <div className="container mt-5">
-            <div className="row justify-content-center">
-                <div className="col-md-6">
-                    <div className="card">
-                        <div className="card-header">Registration</div>
-                        <div className="card-body">
-                            <div>
-                                <div className="form-group">
-                                    <label htmlFor="username">Username:</label>
-                                    <input
-                                        type="text"
-                                        id="username"
-                                        name="username"
-                                        value={formData.username}
-                                        onChange={handleChange}
-                                        className="form-control"
-                                        required
-                                    />
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="password">Password:</label>
-                                    <input
-                                        type="password"
-                                        id="password"
-                                        name="password"
-                                        value={formData.password}
-                                        onChange={handleChange}
-                                        className="form-control"
-                                        required
-                                    />
-                                </div>
-                                <button onClick={handleSubmit} type="submit" className="btn btn-primary">
-                                    Register
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
+    return <AuthForm title="Registration" onSubmit={handleRegistration} />;
 };
 
 export default RegistrationPage;

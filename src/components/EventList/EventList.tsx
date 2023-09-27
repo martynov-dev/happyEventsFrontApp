@@ -1,36 +1,42 @@
-import React from 'react';
-import EventCard from "../EventCard/EventCard.tsx";
-import {IEvent} from "../../models/IEvent.ts";
+import React, { useEffect} from 'react';
+import EventCard from '../EventCard/EventCard.tsx';
+import PlaceService from '../../services/PlaceService';
+import SearchComponent from "../SearchComponent/SearchComponent.tsx";
+import {ITag} from "../../models/ITag.ts";
+import {useStore} from "../../store.ts";
 
-interface EventListProps {
-    events?: IEvent[];
-}
-const TestEvents: IEvent[] = [
-    {
-        id: 1,
-        name: 'Event 1',
-        description: 'Description of Event 1',
-        address: '123 Main St',
-        phoneNumber: '555-1234',
-        rating: 4,
-        photoLink: 'https://example.com/event1.jpg',
-        tags: [
-            { id: 1, name: 'Tag1' },
-            { id: 2, name: 'Tag2' },
-        ],
-    },
-    // Add more event objects here as needed
-];
+const EventList: React.FC = () => {
+    const {loadedEvents, setEvents} = useStore();
 
+    useEffect(() => {
+        loadPlaces();
+    }, []);
 
-const EventList: React.FC<EventListProps> = ({ events =  TestEvents}) => {
+    const loadPlaces = async () => {
+        try {
+            console.log("load places")
+            const response = await PlaceService.getPlaces();
+            setEvents(response.data);
+        } catch(e) {
+            console.error(e);
+        }
+    };
+
+    const handleSearch = async (selectedTags: Array<ITag>) => {
+        const response = await PlaceService.searchPlacesByTag(selectedTags.map(e => ({id: e.id})));
+        setEvents(response.data);
+    };
+
     return (
-        <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3">
-            {events.map((event) => (
-                <div key={event.id} className="col mb-4">
-                    <EventCard event={event} />
-                </div>
-            ))}
+        <div className="container mt-4">
+            <SearchComponent onSearch={handleSearch} />
+            <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 mt-5">
+                {loadedEvents.map((place) => (
+                    <div key={place.id} className="col mb-4">
+                        <EventCard event={place} />
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };
