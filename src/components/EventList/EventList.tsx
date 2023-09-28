@@ -23,7 +23,7 @@ const EventList: React.FC = () => {
     };
 
     const handleSearch = async (selectedTags: Array<ITag>) => {
-        const response = await PlaceService.searchPlacesByTag(selectedTags.map(e => ({id: e.id})));
+        const response = selectedTags.length > 0 ? await PlaceService.searchPlacesByTag(selectedTags.map(e => ({id: e.id}))) : await PlaceService.getPlaces();
         setEvents(response.data);
     };
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
-import { IEvent } from '../../models/IEvent.ts';
-import {API_URL} from "../../http";
+import {IEvent} from '../../models/IEvent.ts';
+import {BASE_URL} from "../../http";
 
 interface EventCardProps {
     event: IEvent;
@@ -12,7 +12,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
         <Card className="mb-4" style={{ width: '18rem' }}>
             <Card.Img
                 variant="top"
-                src={API_URL + event.photoLink}
+                src={BASE_URL + event.photoLink}
                 alt={event.name}
             />
             <Card.Body>
@@ -24,9 +24,9 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
                 <Card.Text>
                     Tags:{' '}
                     {event.tags.map((tag) => (
-                        <span key={tag.id} className="badge badge-secondary mx-1">
-              {tag.name}
-            </span>
+                        <span key={tag.id} className="badge bg-light text-dark">
+                            {tag.name}
+                        </span>
                     ))}
                 </Card.Text>
             </Card.Body>

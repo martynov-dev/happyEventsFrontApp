@@ -13,9 +13,7 @@ const LoginPage: React.FC = () => {
         console.log("login Request");
         try {
             const request = await AuthService.login(formData.username, formData.password);
-            if (request.status === 200) {
-                setLongedIn(true);
-            }
+            setLongedIn(request);
             history('/');
         } catch (e) {
             console.error(e);

@@ -15,8 +15,7 @@ const RegistrationPage: React.FC = () => {
             if (request.status === 200) {
                 console.log("login Request");
                 const res = await AuthService.login(formData.username, formData.password);
-                console.log(res);
-                setLongedIn(true);
+                setLongedIn(res);
             }
             history('/');
         } catch (error) {

@@ -2,8 +2,9 @@ import $api from "../http";
 import {AxiosResponse} from 'axios';
 
 export default class AuthService {
-    static async login(username: string, password: string): Promise<AxiosResponse<void>> {
-        return $api.post<void>('/login', {username, password})
+    static async login(username: string, password: string): Promise<boolean> {
+        const result = await $api.post<string>('/login', {username, password});
+        return result.data === "Login successfully";
     }
 
     static async registration(username: string, password: string): Promise<AxiosResponse<void>> {
