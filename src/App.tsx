@@ -3,6 +3,7 @@ import AppRouter from './router';
 import { useStore } from './store';
 import Header from "./components/Header/Header.tsx";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.min.js';
 import AuthService from "./services/AuthService.ts";
 
 const App: React.FC = () => {
