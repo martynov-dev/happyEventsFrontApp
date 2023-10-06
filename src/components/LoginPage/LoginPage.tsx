@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import {useStore} from "../../store.ts";
 import AuthForm from "../AuthForm/AuthForm.tsx";
 import AuthService from "../../services/AuthService.ts";
+import {AxiosError} from 'axios';
+import { Store } from 'react-notifications-component';
 
 
 const LoginPage: React.FC = () => {
@@ -16,6 +18,20 @@ const LoginPage: React.FC = () => {
             setLongedIn(request);
             history('/');
         } catch (e) {
+            if (e instanceof AxiosError) {
+                Store.addNotification({
+                    title: "Error",
+                    message: e.response?.data || e.message,
+                    type: "danger",
+                    insert: "top",
+                    container: "top-right",
+                    animationIn: ["animate__animated", "animate__fadeIn"],
+                    animationOut: ["animate__animated", "animate__fadeOut"],
+                    dismiss: {
+                        duration: 5000,
+                    }
+                });
+            }
             console.error(e);
         }
 
